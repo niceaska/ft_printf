@@ -20,9 +20,10 @@ static char		*overflow_cases(int base)
 		return (ft_strdup("-1000000000000000000000"));
 	else if (base == 16)
 		 return (ft_strdup("-8000000000000000"));
+	return (NULL);
 }
 
-char			*ft_pr_itoa_base(long n, int base, int flag)
+char			*ft_pr_ltoa_base(long n, int base, int flag)
 {
 	char	*arr;
 	size_t	size;
