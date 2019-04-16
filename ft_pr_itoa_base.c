@@ -2,53 +2,44 @@
 
 static size_t	get_size(int n, int base)
 {
-	size_t	size;
+	size_t			size;
+	unsigned int	val;
 
-	size = (n < 0) ? 1 : 0;
-	n = (n < 0) ? -n : n;
-	while (n)
+	size = (n < 0 && base == 10) ? 1 : 0;
+	val = n;
+	while (val)
 	{
 		size++;
-		n /= base;
+		val /= base;
 	}
 	return (size);
 }
 
-static char		*overflow_cases(int base)
-{
-	if (base == 10)
-		return (ft_strdup("-2147483648"));
-	else if (base == 8)
-		return (ft_strdup("-20000000000"));
-	else if (base == 16)
-		 return (ft_strdup("-80000000"));
-
-}
-
 char			*ft_pr_itoa_base(int n, int base, int flag)
 {
-	char	*arr;
-	size_t	size;
+	char			*arr;
+	size_t			size;
+	unsigned int	val;
 
-	if (n == -2147483648)
-		return (overflow_cases(base));
+	if (n == -2147483648 && base == 10)
+		return (ft_strdup("-2147483648"));
 	else if (n == 0 || (base > 16 || base < 2))
 		return (ft_strdup("0"));
 	size = get_size(n, base);
 	if (!(arr = (char *)malloc(sizeof(char) * size + 1)))
 		return (NULL);
 	arr[size] = '\0';
-	arr[0] = (n < 0) ? '-' : arr[0];
-	n = (n < 0) ? -n : n;
-	while (n)
+	arr[0] = (n < 0 && base == 10) ? '-' : arr[0];
+	val = n;
+	while (val)
 	{
 		if (!flag)
-			arr[--size] = (n % base <= 9) ? n % base + '0' :\
-										n % base + 'a' - 10;
+			arr[--size] = (n % base <= 9) ? val % base + '0' :\
+										val % base + 'a' - 10;
 		else
-			arr[--size] = (n % base <= 9) ? n % base + '0' :\
-										n % base + 'A' - 10;
-		n /= base;
+			arr[--size] = (n % base <= 9) ? val % base + '0' :\
+										val % base + 'A' - 10;
+		val /= base;
 	}
 	return (arr);
 }
