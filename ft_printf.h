@@ -11,11 +11,11 @@ typedef struct		s_pr
 	int		prec;
 	int		field;
 	int		hex_flag;
-	int 	mod_zero;
-	int		mod_plus;
-	int		mod_space;
-	int		mod_minus;
-	int		mod_d;
+	int 	f_zero;
+	int		f_plus;
+	int		f_space;
+	int		f_minus;
+	int		f_d;
 	int		arg_mods[4];
 }					t_pr;
 

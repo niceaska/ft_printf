@@ -13,6 +13,27 @@ static int	ft_isflag(char c)
 					|| c == '-' || c == '#')
 }
 
+t_pr	*init_val(void)
+{
+	t_pr	*vals;
+	int		i;
+
+	i = 0;
+	if (!(vals = (t_pr *)malloc(sizeof(t_pr))))
+		return (NULL);
+	vals->prec = 0;
+	vals->field = 0;
+	vals->hex_flag = 0;
+	vals->f_zero = 0;
+	vals->f_plus = 0;
+	vals->f_space = 0;
+	vals->f_minus = 0;
+	vals->f_d = 0;
+	while (i < 4)
+		vals->arg_mods[i++] = 0;
+	return (vals);
+}
+
 char	*parse_flags(t_pr **val, char *fmt)
 {
 	char	flags[7];
@@ -28,15 +49,15 @@ char	*parse_flags(t_pr **val, char *fmt)
 		fmt++;
 	}
 	if (ft_strchr(flags, '-'))
-		(*val)->mod_minus = 1;
+		(*val)->f_minus = 1;
 	if (ft_strchr(flags, '#'))
-		(*val)->mod_d = 1;
+		(*val)->f_d = 1;
 	if (ft_strchr(flags, '+'))
-		(*val)->mod_plus = 1;
+		(*val)->f_plus = 1;
 	if (ft_strchr(flags, '0') && !ft_strchr(flags, '-'))
-		(*val)->mod_zero = 1;
+		(*val)->f_zero = 1;
 	if (ft_strchr(flags, ' ') && !ft_strchr(flags, '+'))
-		(*val)->mod_space = 1;
+		(*val)->f_space = 1;
 	return (fmt);
 }
 
