@@ -12,8 +12,11 @@ typedef struct		s_pr
 	int		field;
 	int		hex_flag;
 	int 	mod_zero;
-	int		mod_p_m;
-	char	*arg_flags;
+	int		mod_plus;
+	int		mod_space;
+	int		mod_minus;
+	int		mod_d;
+	int		arg_mods[4];
 }					t_pr;
 
 int					ft_printf(const char *format, …);
