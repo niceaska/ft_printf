@@ -1,3 +1,7 @@
+#include "ft_printf.h"
+#include "libft/libft.h"
+
+
 static size_t	get_size(long n)
 {
 	int		size;
@@ -17,7 +21,7 @@ char			*ft_ltoa(long n)
 	char	*arr;
 	size_t	size;
 
-	if (n == -9223372036854775808L)
+	if ((unsigned long)n == -9223372036854775808U)
 		return (ft_strdup("-9223372036854775808"));
 	else if (n == 0)
 		return (ft_strdup("0"));

@@ -19,11 +19,15 @@ typedef struct		s_pr
 	int		arg_mods[4];
 }					t_pr;
 
-int					ft_printf(const char *format, …);
+int					ft_isconv(char c);
+int					ft_printf(const char *format, ...);
 char				*ft_pr_itoa_base(int n, int base, int flag);
 char				*ft_pr_ltoa_base(long n, int base, int flag);
 char				*ft_ltoa(long n);
 char				*ft_utoa(unsigned int n);
 char				*ft_ultoa(unsigned long n);
+t_pr				*init_val(void);
+char				*parse_val(t_pr **val, char *fmt);
+
 
 #endif
