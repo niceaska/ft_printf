@@ -34,10 +34,10 @@ char			*ft_pr_itoa_base(int n, int base, int flag)
 	while (val)
 	{
 		if (!flag)
-			arr[--size] = (n % base <= 9) ? val % base + '0' :\
+			arr[--size] = (val % base <= 9) ? val % base + '0' :\
 										val % base + 'a' - 10;
 		else
-			arr[--size] = (n % base <= 9) ? val % base + '0' :\
+			arr[--size] = (val % base <= 9) ? val % base + '0' :\
 										val % base + 'A' - 10;
 		val /= base;
 	}

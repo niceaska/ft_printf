@@ -1,65 +1,37 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
 
-unsigned long ft_print_c(va_list ag, t_pr *vals)
+long ft_printer(long i, char c)
 {
-	unsigned long size;
-	int i;
-	int c;
+	long size;
 
-	i = 0;
 	size = 0;
-	c = va_arg(ag, int);
-	if (!vals->f_minus)
-	{
-		while (++i < vals->field)
-			size += write(1, " ", 1);
+	while(i--)
 		size += write(1, &c, 1);
-	}
-	else
-	{
-		size += write(1, &c, 1);
-		while (++i < vals->field)
-			size += write(1, " ", 1);
-	}
 	return (size);
 }
 
-unsigned long ft_print_str(va_list ag, t_pr *vals)
+int		ft_choices(char conv, va_list args, t_pr *vals)
 {
-	char			*s;
-	char			*tmp;
-	int				i;
-	unsigned long	size;
-
-	i = 0;
+	long size;
+	
 	size = 0;
-	tmp = va_arg(ag, char *);
-	s = (tmp) ? ft_strdup(tmp) : ft_strdup("(null)");
-	if ((vals->prec >= 0 && tmp) || (vals->prec >= 6 && !tmp))
-		s[vals->prec] = (vals->prec < (int)ft_strlen(s)) ?\
-						'\0' : s[vals->prec];
-	i = (vals->prec < 6 && !tmp) ? vals->field : \
-					vals->field - (int)ft_strlen(s);
-	if (i  > 0 && !vals->f_minus)
-		while(i--)
-			size += write(1, " ", 1);
-	tmp = (!tmp && (vals->prec < ft_strlen(s))) ? NULL : s;
-	while (*s && tmp && s)
-		size += write(1, s++, 1);
-	if (vals->f_minus && i > 0)
-		while(i--)
-			size += write(1, " ", 1);
-	((tmp) ? free(tmp) : free(s));
-	return (size);
+	if (conv == 'c')
+		size += ft_print_c(args, vals);
+	else if (conv == 's')
+		size += ft_print_str(args, vals);
+	else if (conv == 'p')
+		size += ft_print_ptr(args, vals);
+	else if (conv == '%')
+		size += write(1, "%", 1);
+	return ((int)size);
 }
 
-
-int		ft_print_handler(char *str, unsigned long size,  va_list args)
+int		ft_print_handler(char *str, long size,  va_list args)
 {
 	t_pr	*vals;
 	
-	if (!*str || !str)
+	if (*str == '\0' || !str)
 		return ((int)size);
 	while (*str && *str != '%')
 		size += (write(1, str++, 1));
@@ -67,12 +39,7 @@ int		ft_print_handler(char *str, unsigned long size,  va_list args)
 	if (*str == '%')
 	{
 		str = parse_val(&vals, str + 1);
-		if (*str == 'c')
-			size += ft_print_c(args, vals);
-		else if (*str == 's')
-			size += ft_print_str(args, vals);
-		else if (*str == '%')
-			size += write(1, "%", 1);
+		size += ft_choices(*str, args, vals);
 		str++;
 	}
 	free(vals);

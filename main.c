@@ -4,9 +4,9 @@
 int main(void)
 {
 	int i;
-	i = ft_printf("Test %-4c %-20.80s\n", 'a', "String is a devil");
+	i = ft_printf("Test %3.4c %20s %040.20p\n", 'a', "Champions begin", "Test");
 	printf("%d\n", i);
-	i = printf("Test %-4c %-20.80s\n", 'a', "String is a devil");
+	i = printf("Test %3.4c %20s %040.20p\n", 'a', "Champions begin", "Test");
 	printf("%d\n", i);
 /*
 	int c = printf("%.8c\n", 'a');

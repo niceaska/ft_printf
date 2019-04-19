@@ -34,11 +34,11 @@ char			*ft_pr_ltoa_base(long n, int base, int flag)
 	while (val)
 	{
 		if (!flag)
-			arr[--size] = (n % base <= 9) ? val % base + '0' :\
-										val % base + 'a' - 10;
+			arr[--size] = (val % base > 9) ? val % base + 'a' - 10 :\
+										val % base + '0';
 		else
-			arr[--size] = (n % base <= 9) ? val % base + '0' :\
-										val % base + 'A' - 10;
+			arr[--size] = (val % base > 9) ? val % base + 'A' - 10 :\
+										val % base + '0' ;
 		val /= base;
 	}
 	return (arr);

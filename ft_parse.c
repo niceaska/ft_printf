@@ -1,7 +1,7 @@
 #include "ft_printf.h"
 #include "libft/libft.h"
 
-int			ft_isconv(char c)
+static int			ft_isconv(char c)
 {
 	if (c == 'd'|| c == 'i' || c == 'c' || c == 'u' \
 			|| c == 'x' || c == 's' || c == 'o' || c == 'f' \
@@ -68,7 +68,6 @@ static char	*parse_flags(t_pr **val, char *fmt)
 char	*parse_val(t_pr **val, char *fmt)
 {
 	fmt = parse_flags(val, fmt);
-
 	if (ft_isdigit(fmt[0]))
 	{
 		(*val)->field = ft_atoi(fmt);
