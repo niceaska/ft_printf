@@ -18,6 +18,8 @@ int		ft_choices(char conv, va_list args, t_pr *vals)
 	size = 0;
 	if (conv == 'c')
 		size += ft_print_c(args, vals);
+	else if (conv == 'd')
+		size += ft_print_i(args, vals, 0, 0);
 	else if (conv == 's')
 		size += ft_print_str(args, vals);
 	else if (conv == 'p')
@@ -44,12 +46,10 @@ int		ft_print_handler(char *str, long size,  va_list args)
 	}
 	free(vals);
 	return (ft_print_handler(str, size, args));
-
 }
 
 int					ft_printf(const char *format, ...)
 {
-	char *traverse; 
 	int size;
 
 	va_list arg; 

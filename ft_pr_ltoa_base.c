@@ -15,7 +15,7 @@ static size_t	get_size(long n, int base)
 	return (size);
 }
 
-char			*ft_pr_ltoa_base(long n, int base, int flag)
+char			*ft_pr_ltoa_base(long long n, int base, int flag)
 {
 	char			*arr;
 	size_t			size;

@@ -43,7 +43,8 @@ long ft_print_str(va_list ag, t_pr *vals)
 					vals->field - (int)ft_strlen(s);
 	if (i > 0 && !vals->f_minus)
 		size += ft_printer(i, ' ');
-	tmp = (!tmp && (vals->prec < (int)ft_strlen(s))) ? NULL : s;
+	tmp = (!tmp && (vals->prec != -1 && \
+			vals->prec < (int)ft_strlen(s))) ? NULL : s;
 	while (*s && tmp && s)
 		size += write(1, s++, 1);
 	if (vals->f_minus && i > 0)
@@ -65,11 +66,11 @@ long ft_print_ptr(va_list ag, t_pr *vals)
 	tmp = va_arg(ag, void *);
 	s = (tmp) ? ft_pr_ltoa_base((uintptr_t)tmp, 16, 0) : ft_strdup("(nil)");	
 	i = (tmp) ? (vals->field - (MAX((int)ft_strlen(s), vals->prec) + 2)) :\
-										vals->field - ft_strlen(s);
+										vals->field - (int)ft_strlen(s);
 	if (i  > 0 && !vals->f_minus)
 		size += ft_printer(i, ' ');
 	size += (tmp) ? write(1, "0x", 2) : 0;
-	while (tmp && vals->prec-- > ft_strlen(s))
+	while (tmp && vals->prec-- > (int)ft_strlen(s))
 		size += write(1, "0", 1);
 	tmp = s;
 	while (*s && s)

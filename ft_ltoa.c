@@ -16,7 +16,7 @@ static size_t	get_size(long n)
 	return (size);
 }
 
-char			*ft_ltoa(long n)
+char			*ft_ltoa(long long n)
 {
 	char	*arr;
 	size_t	size;

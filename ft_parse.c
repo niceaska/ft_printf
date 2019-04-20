@@ -79,12 +79,12 @@ char	*parse_val(t_pr **val, char *fmt)
 			(*val)->prec = 0;
 	while (*fmt)
 	{
-		(*val)->arg_mods[0] = (*fmt == 'l') ? 1 : 0;
+		(*val)->arg_mods[0] = (*fmt == 'l') ? 1 : (*val)->arg_mods[0];
 		(*val)->arg_mods[1] = (*fmt == 'h' && \
-							*(fmt + 1) == 'h') ? 1 : 0;
+						*(fmt + 1) == 'h') ? 1 : (*val)->arg_mods[1];
 		(*val)->arg_mods[2] = (*fmt == 'h' && *(fmt + 1) != 'h' \
-								&& *(fmt - 1) != 'h') ? 1 : 0;
-		(*val)->arg_mods[3] = (*fmt == 'L') ? 1 : 0;
+						&& *(fmt - 1) != 'h') ? 1 : (*val)->arg_mods[2];
+		(*val)->arg_mods[3] = (*fmt == 'L') ? 1 : (*val)->arg_mods[3];
 		if (ft_isconv(*fmt))
 			break ;
 		fmt++;

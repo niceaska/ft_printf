@@ -23,8 +23,9 @@ typedef struct		s_pr
 
 int					ft_printf(const char *format, ...);
 char				*ft_pr_itoa_base(int n, int base, int flag);
-char				*ft_pr_ltoa_base(long n, int base, int flag);
-char				*ft_ltoa(long n);
+long				ft_print_i(va_list ag, t_pr *vals, long i, long n);
+char				*ft_pr_ltoa_base(long long n, int base, int flag);
+char				*ft_ltoa(long long n);
 char				*ft_utoa(unsigned int n);
 char				*ft_ultoa(unsigned long n);
 t_pr				*init_val(void);
