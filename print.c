@@ -1,5 +1,4 @@
 #include "ft_printf.h"
-#include "libft/libft.h"
 
 long ft_printer(long i, char c)
 {
@@ -18,14 +17,18 @@ int		ft_choices(char conv, va_list args, t_pr *vals)
 	size = 0;
 	if (conv == 'c')
 		size += ft_print_c(args, vals);
-	else if (conv == 'd')
-		size += ft_print_i(args, vals, 0, 0);
+	else if (conv == 'd' || conv == 'i')
+		size += ft_print_i(args, vals, 0, conv);
+	else if (conv == 'o' || conv == 'x' || conv == 'X')
+		size += ft_print_ox(args, vals, 0, conv);
 	else if (conv == 's')
 		size += ft_print_str(args, vals);
 	else if (conv == 'p')
 		size += ft_print_ptr(args, vals);
 	else if (conv == '%')
 		size += write(1, "%", 1);
+	else
+		return (-1000);
 	return ((int)size);
 }
 
@@ -42,6 +45,8 @@ int		ft_print_handler(char *str, long size,  va_list args)
 	{
 		str = parse_val(&vals, str + 1);
 		size += ft_choices(*str, args, vals);
+		if (size < 0)
+			return (-1);
 		str++;
 	}
 	free(vals);

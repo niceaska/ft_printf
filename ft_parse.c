@@ -1,5 +1,4 @@
 #include "ft_printf.h"
-#include "libft/libft.h"
 
 static int			ft_isconv(char c)
 {
@@ -89,6 +88,7 @@ char	*parse_val(t_pr **val, char *fmt)
 			break ;
 		fmt++;
 	}
-	(*val)->hex_flag = (*fmt == 'X') ? 1 : 0;
+	(*val)->f_zero = ((*fmt == 'X' || *fmt == 'x' || *fmt == 'o') && \
+							(*val)->prec != -1) ? 0 : (*val)->f_zero;
 	return (fmt);
 }

@@ -1,7 +1,6 @@
 #include "ft_printf.h"
-#include "libft/libft.h"
 
-static unsigned long		get_size(unsigned long n)
+static unsigned long		get_size(unsigned long n, int base)
 {
 	unsigned long	size;
 
@@ -9,7 +8,7 @@ static unsigned long		get_size(unsigned long n)
 	while (n)
 	{
 		size++;
-		n /= 10;
+		n /= base;
 	}
 	return (size);
 }
@@ -21,7 +20,7 @@ char			*ft_utoa(unsigned int n)
 
 	if (n == 0)
 		return (ft_strdup("0"));
-	size = get_size(n);
+	size = get_size(n, 10);
 	if (!(arr = (char *)malloc(sizeof(char) * size + 1)))
 		return (NULL);
 	arr[size] = '\0';
@@ -40,7 +39,7 @@ char			*ft_ultoa(unsigned long n)
 
 	if (n == 0)
 		return (ft_strdup("0"));
-	size = get_size(n);
+	size = get_size(n, 10);
 	if (!(arr = (char *)malloc(sizeof(char) * size + 1)))
 		return (NULL);
 	arr[size] = '\0';
@@ -48,6 +47,30 @@ char			*ft_ultoa(unsigned long n)
 	{
 		arr[--size] = n % 10 + '0';
 		n /= 10;
+	}
+	return (arr);
+}
+
+char			*ft_ultoa_base(unsigned long n, int base, int flag)
+{
+	char			*arr;
+	unsigned long	size;
+
+	if (n == 0)
+		return (ft_strdup("0"));
+	size = get_size(n, base);
+	if (!(arr = (char *)malloc(sizeof(char) * size + 1)))
+		return (NULL);
+	arr[size] = '\0';
+	while (n)
+	{
+		if (!flag)
+			arr[--size] = (n % base > 9) ? n % base + 'a' - 10 :\
+										n % base + '0';
+		else
+			arr[--size] = (n % base > 9) ? n % base + 'A' - 10 :\
+										n % base + '0' ;
+		n /= base;
 	}
 	return (arr);
 }

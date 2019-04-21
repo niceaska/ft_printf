@@ -1,5 +1,4 @@
 #include "ft_printf.h"
-#include "libft/libft.h"
 
 long ft_print_c(va_list ag, t_pr *vals)
 {

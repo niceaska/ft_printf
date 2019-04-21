@@ -1,6 +1,4 @@
 #include "ft_printf.h"
-#include "libft/libft.h"
-
 
 static size_t	get_size(long n)
 {
