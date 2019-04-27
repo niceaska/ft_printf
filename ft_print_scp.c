@@ -1,81 +1,87 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_scp.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/26 13:33:30 by lgigi             #+#    #+#             */
+/*   Updated: 2019/04/26 14:16:39 by lgigi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-long ft_print_c(va_list ag, t_pr *vals)
+void	ft_print_c(va_list ag, t_pr *vals, int perc)
 {
-	long size;
 	int i;
 	int c;
 
 	i = 0;
-	size = 0;
-	c = va_arg(ag, int);
-	if (!vals->f_minus)
+	c = (perc) ? '%' : va_arg(ag, int);
+	if (!(vals->m_f & F_MS))
 	{
 		while (++i < vals->field)
-			size += write(1, " ", 1);
-		size += write(1, &c, 1);
+			ft_add_c(' ', vals);
+		ft_add_c(c, vals);
 	}
 	else
 	{
-		size += write(1, &c, 1);
+		ft_add_c(c, vals);
 		while (++i < vals->field)
-			size += write(1, " ", 1);
+			ft_add_c(' ', vals);
 	}
-	return (size);
 }
 
-long ft_print_str(va_list ag, t_pr *vals)
+void	ft_print_str(va_list ag, t_pr *vals)
 {
 	char			*s;
 	char			*tmp;
 	int				i;
-	long			size;
 
 	i = 0;
-	size = 0;
 	tmp = va_arg(ag, char *);
-	s = (tmp) ? ft_strdup(tmp) : ft_strdup("(null)");
-	if ((vals->prec >= 0 && tmp) || (vals->prec >= 6 && !tmp))
+	if (!(s = (tmp) ? ft_strdup(tmp) : ft_strdup("(null)")))
+		exit(1);
+	if (vals->prec >= 0)
 		s[vals->prec] = (vals->prec < (int)ft_strlen(s)) ?\
 						'\0' : s[vals->prec];
-	i = (vals->prec < 6 && !tmp) ? vals->field : \
-					vals->field - (int)ft_strlen(s);
-	if (i > 0 && !vals->f_minus)
-		size += ft_printer(i, ' ');
-	tmp = (!tmp && (vals->prec != -1 && \
-			vals->prec < (int)ft_strlen(s))) ? NULL : s;
+	i = vals->field - (int)ft_strlen(s);
+	if (i > 0 && !(vals->m_f & F_MS))
+		ft_fill_buff(i, ' ', vals);
+	tmp = s;
 	while (*s && tmp && s)
-		size += write(1, s++, 1);
-	if (vals->f_minus && i > 0)
-		size += ft_printer(i, ' ');
+		ft_add_c(*s++, vals);
+	if ((vals->m_f & F_MS) && i > 0)
+		ft_fill_buff(i, ' ', vals);
 	((tmp) ? free(tmp) : free(s));
-	return (size);
 }
 
-
-long ft_print_ptr(va_list ag, t_pr *vals)
+void	ft_print_ptr(va_list ag, t_pr *vals, long i)
 {
-	char			*s;
-	void			*tmp;
-	int				i;
-	long	size;
+	char	*s;
+	void	*tmp;
 
-	i = 0;
-	size = 0;
 	tmp = va_arg(ag, void *);
-	s = (tmp) ? ft_pr_ltoa_base((uintptr_t)tmp, 16, 0) : ft_strdup("(nil)");	
+	if (!(s = (tmp) ? ft_ultoa_base((uintptr_t)tmp, 16, 0) \
+									: ft_strdup("0x0")))
+		exit(1);
+	s[2] = (!tmp && !vals->prec) ? '\0' : s[2];
 	i = (tmp) ? (vals->field - (MAX((int)ft_strlen(s), vals->prec) + 2)) :\
 										vals->field - (int)ft_strlen(s);
-	if (i  > 0 && !vals->f_minus)
-		size += ft_printer(i, ' ');
-	size += (tmp) ? write(1, "0x", 2) : 0;
+	if (i > 0 && !(vals->m_f & F_MS))
+		ft_fill_buff(i, ' ', vals);
+	if (tmp)
+	{
+		ft_add_c('0', vals);
+		ft_add_c('x', vals);
+	}
 	while (tmp && vals->prec-- > (int)ft_strlen(s))
-		size += write(1, "0", 1);
+		ft_add_c('0', vals);
 	tmp = s;
 	while (*s && s)
-		size += write(1, s++, 1);
-	if (vals->f_minus && i > 0)
-		size += ft_printer(i, ' ');
+		ft_add_c(*s++, vals);
+	if ((vals->m_f & F_MS) && i > 0)
+		ft_fill_buff(i, ' ', vals);
 	free(tmp);
-	return (size);
 }

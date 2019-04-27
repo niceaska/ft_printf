@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lgigi <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/04/26 13:53:17 by lgigi             #+#    #+#             */
+/*   Updated: 2019/04/26 13:54:07 by lgigi            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static unsigned long		get_size(unsigned long n, int base)
+static unsigned long	get_size(unsigned long n, int base)
 {
 	unsigned long	size;
 
@@ -13,7 +25,7 @@ static unsigned long		get_size(unsigned long n, int base)
 	return (size);
 }
 
-char			*ft_utoa(unsigned int n)
+char					*ft_utoa(unsigned int n)
 {
 	char			*arr;
 	unsigned long	size;
@@ -32,7 +44,7 @@ char			*ft_utoa(unsigned int n)
 	return (arr);
 }
 
-char			*ft_ultoa(unsigned long n)
+char					*ft_ultoa(unsigned long n)
 {
 	char			*arr;
 	unsigned long	size;
@@ -51,7 +63,7 @@ char			*ft_ultoa(unsigned long n)
 	return (arr);
 }
 
-char			*ft_ultoa_base(unsigned long n, int base, int flag)
+char					*ft_ultoa_base(unsigned long n, int base, int flag)
 {
 	char			*arr;
 	unsigned long	size;
@@ -69,7 +81,7 @@ char			*ft_ultoa_base(unsigned long n, int base, int flag)
 										n % base + '0';
 		else
 			arr[--size] = (n % base > 9) ? n % base + 'A' - 10 :\
-										n % base + '0' ;
+										n % base + '0';
 		n /= base;
 	}
 	return (arr);
